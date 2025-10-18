@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ritu Raj • Data Science Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Ritu Raj — Data Science student at IIT Madras. Projects, skills, education, and contact."
+    />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <!-- Sticky Navigation -->
+    <header class="site-header" id="top">
+      <nav class="nav container" aria-label="Primary">
+        <a href="#hero" class="brand" aria-label="Home">
+          <span class="brand__dot"></span>
+          Ritu Raj
+        </a>
+        <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__menu" id="nav-menu">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section id="hero" class="section hero">
+        <div class="container grid-2">
+          <div class="hero__content reveal">
+            <h1 class="hero__title">Hi, I'm <span class="accent">Ritu Raj</span></h1>
+            <p class="hero__subtitle">Data Science student • BS at IIT Madras</p>
+            <p class="hero__text">Currently completing diploma. I enjoy turning data into insights and building practical, business-focused ML solutions.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="assets/resume/Ritu_Raj_Resume.pdf" download>
+                Download Resume
+              </a>
+              <a class="btn btn--ghost" href="https://github.com/riturajprofile" target="_blank" rel="noopener noreferrer">
+                View GitHub
+              </a>
+              <a class="btn btn--ghost" href="#contact">Contact Me</a>
+            </div>
+          </div>
+          <div class="hero__visual reveal" aria-hidden="true">
+            <div class="hero__blob">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract blob">
+                <path fill="#60a5fa" d="M49.8,-59.2C63.6,-51.6,74.7,-36.3,78.4,-19.2C82.1,-2.1,78.5,16.9,69.9,31.7C61.3,46.4,47.7,57,32.7,65.8C17.7,74.6,1.3,81.6,-13.7,81.5C-28.7,81.4,-42.2,74.1,-53.1,63.4C-64.1,52.7,-72.6,38.5,-77.2,22.7C-81.9,6.9,-82.8,-10.5,-77.2,-25.2C-71.5,-39.9,-59.3,-52,-45,-59.7C-30.7,-67.4,-15.4,-70.7,0.8,-71.8C17,-73,33.9,-71,49.8,-59.2Z" transform="translate(100 100)" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="section section--alt">
+        <div class="container narrow reveal">
+          <h2 class="section__title">About Me</h2>
+          <p>
+            I'm a Data Science student pursuing a BS degree from IIT Madras, currently completing my diploma. I focus on
+            Python, Machine Learning, Business Analysis, and Data Analysis. I'm motivated by solving real-world problems and
+            communicating insights clearly to stakeholders.
+          </p>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills" class="section">
+        <div class="container reveal">
+          <h2 class="section__title">Skills</h2>
+          <ul class="skills">
+            <li class="skill">Python</li>
+            <li class="skill">Machine Learning</li>
+            <li class="skill">Business Analysis</li>
+            <li class="skill">Data Analysis</li>
+            <li class="skill">Pandas</li>
+            <li class="skill">NumPy</li>
+            <li class="skill">scikit-learn</li>
+            <li class="skill">Visualization</li>
+            <li class="skill">SQL</li>
+            <li class="skill">Git/GitHub</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="section section--alt">
+        <div class="container reveal">
+          <div class="section__header">
+            <h2 class="section__title">Projects</h2>
+            <a class="link" href="https://github.com/riturajprofile?tab=repositories" target="_blank" rel="noopener noreferrer">All repositories →</a>
+          </div>
+
+          <div id="projects-grid" class="projects-grid">
+            <!-- Skeletons while loading -->
+            <article class="card skeleton"></article>
+            <article class="card skeleton"></article>
+            <article class="card skeleton"></article>
+            <article class="card skeleton"></article>
+            <article class="card skeleton"></article>
+            <article class="card skeleton"></article>
+          </div>
+          <p id="projects-error" class="error hidden" role="alert"></p>
+        </div>
+      </section>
+
+      <!-- Education Section -->
+      <section id="education" class="section">
+        <div class="container reveal">
+          <h2 class="section__title">Education</h2>
+          <div class="timeline">
+            <div class="timeline__item">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <h3>Indian Institute of Technology Madras (IIT Madras)</h3>
+                <p>BS in Data Science</p>
+                <span class="muted">Student • Currently pursuing</span>
+              </div>
+            </div>
+            <div class="timeline__item">
+              <div class="timeline__dot"></div>
+              <div class="timeline__content">
+                <h3>Diploma (Current)</h3>
+                <p>Specialization aligned with Data Science curriculum</p>
+                <span class="muted">In progress</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section section--alt">
+        <div class="container reveal grid-2">
+          <div>
+            <h2 class="section__title">Get in Touch</h2>
+            <p>If you'd like to collaborate or have an opportunity in mind, feel free to reach out.</p>
+            <ul class="socials">
+              <li>
+                <a class="social" href="mailto:your.email@example.com" target="_blank" rel="noopener noreferrer" aria-label="Email">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.01L12 13l8-6.99V6H4Zm16 12V9.236l-8 6.99-8-6.99V18h16Z" fill="currentColor"/></svg>
+                  Email
+                </a>
+              </li>
+              <li>
+                <a class="social" href="https://github.com/riturajprofile" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12a10 10 0 0 0 6.838 9.488c.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.7-2.782.604-3.369-1.342-3.369-1.342-.454-1.153-1.11-1.46-1.11-1.46-.908-.62.069-.607.069-.607 1.004.07 1.532 1.032 1.532 1.032.892 1.529 2.341 1.087 2.91.832.091-.646.35-1.087.636-1.337-2.221-.253-4.555-1.112-4.555-4.949 0-1.092.39-1.986 1.029-2.686-.103-.253-.446-1.272.098-2.65 0 0 .84-.269 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.338 1.909-1.295 2.748-1.026 2.748-1.026.546 1.378.202 2.397.1 2.65.64.7 1.028 1.594 1.028 2.686 0 3.846-2.337 4.694-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.417-.012 2.744 0 .268.18.58.688.481A10.002 10.002 0 0 0 22 12c0-5.523-4.477-10-10-10Z" fill="currentColor"/></svg>
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a class="social" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.944v5.662H9.35V9h3.414v1.561h.047c.476-.9 1.637-1.852 3.37-1.852 3.604 0 4.268 2.372 4.268 5.455v6.288ZM5.337 7.433a2.064 2.064 0 1 1 0-4.129 2.064 2.064 0 0 1 0 4.129ZM3.56 20.452h3.554V9H3.56v11.452Z" fill="currentColor"/></svg>
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <form id="contact-form" class="form" novalidate>
+            <div class="form__group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required />
+              <p class="input-error" id="name-error"></p>
+            </div>
+            <div class="form__group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+              <p class="input-error" id="email-error"></p>
+            </div>
+            <div class="form__group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="How can I help?" required></textarea>
+              <p class="input-error" id="message-error"></p>
+            </div>
+            <button type="submit" class="btn btn--primary">Send Message</button>
+            <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p>© <span id="year"></span> Ritu Raj. All rights reserved.</p>
+        <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js" defer></script>
+  </body>
+  </html>
