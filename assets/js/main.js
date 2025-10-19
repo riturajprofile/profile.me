@@ -228,27 +228,48 @@ if (crackerContainer && crackerCanvas) {
     const errorEl = $('#projects-error');
     if (!grid) return;
 
+    // Read github-projects.txt
+    let allowedRepos = [];
+    try {
+      const txtRes = await fetch('github-projects.txt');
+      if (txtRes.ok) {
+        const txt = await txtRes.text();
+        allowedRepos = txt.split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('#'))
+          .map(line => {
+            // Accept both full URLs and repo names
+            if (line.startsWith('https://github.com/')) {
+              return line.replace('https://github.com/', '');
+            }
+            return line;
+          });
+      }
+    } catch (e) {
+      // If file missing, show all
+      allowedRepos = [];
+    }
+
     const username = 'riturajprofile';
-    const endpoint = `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`;
+    const endpoint = `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`;
 
     try {
       const res = await fetch(endpoint, { headers: { Accept: 'application/vnd.github+json' } });
       if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
       const repos = await res.json();
 
-      // Filter: exclude forks, show with description or topics
-      const filtered = repos
-        .filter((r) => !r.fork)
-        .sort((a, b) => b.stargazers_count - a.stargazers_count)
-        .slice(0, 6); // show only top 6 projects per request
+      // Only show repos listed in github-projects.txt
+      let filtered = repos.filter(r => !r.fork);
+      if (allowedRepos.length) {
+        filtered = filtered.filter(r => allowedRepos.includes(`${r.owner.login}/${r.name}`));
+      }
+      filtered = filtered.slice(0, 12); // show up to 12 listed projects
 
       grid.innerHTML = '';
-
       if (!filtered.length) {
-        grid.innerHTML = '<p class="muted">No public repositories to show yet. Check back soon.</p>';
+        grid.innerHTML = '<p class="muted">No listed repositories to show yet. Add them to github-projects.txt.</p>';
         return;
       }
-
       for (const repo of filtered) {
         const card = document.createElement('article');
         card.className = 'card';

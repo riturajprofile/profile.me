@@ -1,0 +1,9 @@
+# Paste the list of GitHub repositories you want to show in your project section below.
+# Example:
+# riturajprofile/awesome-portfolio
+# riturajprofile/diwali-cracker
+# riturajprofile/rocket-animation
+https://github.com/riturajprofile/basic-ai
+https://github.com/riturajprofile/vechicle-parking-webapp
+https://github.com/riturajprofile/project-tds
+# Add one repo per line.
