@@ -13,222 +13,101 @@
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /*=============== CHHATA PUJA THEME ACTIVATION ===============*/
-  // Automatically apply Chhath theme during September-October
-  const currentMonth = new Date().getMonth(); // 0 = Jan, 8 = Sep, 9 = Oct
-  if (currentMonth === 8 || currentMonth === 9) {
+  /*=============== SEASONAL THEME SYSTEM ===============*/
+  // Automatically apply themes based on date
+  const now = new Date();
+  // const now = new Date(2025, 3, 5);
+  const currentMonth = now.getMonth(); // 0-11
+  const currentDate = now.getDate();
+  
+  let activeTheme = 'default';
+  let themeBannerMessage = '';
+  
+  // February: Vasant Panchami (Saraswati Puja) - usually early Feb
+  if (currentMonth === 1 || (currentMonth === 0 && currentDate >= 27)) {
+    activeTheme = 'vasant-panchami';
+    themeBannerMessage = '<strong>Happy Vasant Panchami!</strong> Celebrating Goddess Saraswati - Knowledge, Wisdom & Learning 📚';
+    document.body.classList.add('vasant-panchami-theme');
+    console.log('📚 Vasant Panchami theme activated! Celebrating knowledge & wisdom.');
+  }
+  
+  // March: Holi - Festival of Colors (usually mid-March)
+  else if (currentMonth === 2 && (currentDate >= 8) || (currentMonth === 3 && currentDate <= 20)) {
+    activeTheme = 'holi';
+    themeBannerMessage = '<strong>Happy Holi!</strong> Festival of Colors, Joy & Unity 🎨';
+    document.body.classList.add('holi-theme');
+    console.log('🎨 Holi theme activated! Celebrating colors & joy.');
+  }
+  
+  // April-May: Exam Season
+  else if (currentMonth === 3 || currentMonth === 4) {
+    activeTheme = 'exam-season';
+    themeBannerMessage = '<strong>Exam Season</strong> Stay focused, stay calm. You\'ve got this! 💪📖';
+    document.body.classList.add('exam-season-theme');
+    console.log('📖 Exam season theme activated! Focus mode on.');
+  }
+  
+  // August 15: Independence Day
+  else if (currentMonth === 7 && currentDate === 15) {
+    activeTheme = 'independence-day';
+    themeBannerMessage = '<strong>Happy Independence Day!</strong> Celebrating 78 years of freedom 🇮🇳';
+    document.body.classList.add('independence-day-theme');
+    console.log('🇮🇳 Independence Day theme activated! Jai Hind!');
+  }
+  
+  // September 15: Engineer's Day (Sir M. Visvesvaraya's birthday)
+  else if (currentMonth === 8 && currentDate === 15) {
+    activeTheme = 'engineers-day';
+    themeBannerMessage = '<strong>Happy Engineer\'s Day!</strong> Celebrating innovation & problem-solving ⚙️';
+    document.body.classList.add('engineers-day-theme');
+    console.log('⚙️ Engineer\'s Day theme activated! Honoring Sir M. Visvesvaraya.');
+  }
+  
+  // September-October: Chhata Puja (Chhath)
+  else if (currentMonth === 8 || currentMonth === 9) {
+    activeTheme = 'chhath';
+    themeBannerMessage = '<strong>Happy Chhata Puja!</strong> Celebrating Bihar\'s harvest festival & gratitude to Surya Dev 🙏';
     document.body.classList.add('chhath-theme');
     console.log('🌅 Chhata Puja theme activated! Celebrating Bihar/Jharkhand heritage.');
-    
-    // Auto-hide Chhath banner after 6 seconds
-    const chhathBanner = document.querySelector('.chhath-banner');
-    if (chhathBanner) {
-      setTimeout(() => {
-        chhathBanner.classList.add('fade-out');
-        // Remove from DOM after animation completes
-        setTimeout(() => {
-          chhathBanner.remove();
-        }, 1200); // Match animation duration
-      }, 6000); // 6 seconds delay
+  }
+  
+  // Default theme for other times
+  else {
+    console.log('🎨 Default theme active');
+  }
+  
+  // Update banner message if theme is active
+  const themeBanner = document.querySelector('.theme-banner');
+  if (themeBanner) {
+    if (themeBannerMessage) {
+      themeBanner.innerHTML = themeBannerMessage;
+      themeBanner.style.display = 'block';
     }
-  } else {
-    // Remove animation container for other months
+    // Dim after 2 seconds
+    setTimeout(() => {
+      themeBanner.classList.add('dim');
+    }, 2000);
+    // Fade out and remove after 5 seconds
+    setTimeout(() => {
+      themeBanner.classList.add('fade-out');
+      setTimeout(() => {
+        themeBanner.remove();
+      }, 1200);
+    }, 5000);
+  }
+  
+  // Remove animation container if not in seasonal period
+  if (activeTheme === 'default') {
     const animationContainer = document.getElementById('rocket-launch');
     if (animationContainer) {
       animationContainer.remove();
     }
-    console.log('🎨 Default theme active');
   }
 
   // Rocket launch animation - remove after completion
-/*=============== CHHATA PUJA (CHHATH) ANIMATION ===============*/
-// Celebrating Bihar/Jharkhand's most sacred harvest festival
-const crackerContainer = document.getElementById('rocket-launch');
-const crackerCanvas = document.getElementById('rocket-trail-canvas');
+// (Chhath animation removed as requested)
 
-if (document.getElementById('rocket-launch') && document.getElementById('rocket-trail-canvas')) {
-  const canvas = document.getElementById('rocket-trail-canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  // Chhath Puja color palette - representing Sun God, harvest, and spirituality
-  const chhathColors = [
-    '#FFD700', // Golden yellow - Sun God (Surya Dev)
-    '#FF6B35', // Saffron - Sacred spiritual color
-    '#FFA500', // Orange - Dawn/dusk prayers
-    '#FFDB58', // Mustard - Harvest & prosperity
-    '#FF8C00', // Dark orange - Setting sun
-    '#FFB347', // Light orange - Rising sun
-    '#F4C430', // Saffron gold - Traditional offerings
-    '#FFC40C', // Golden - Bamboo baskets (Soop)
-    '#FFE4B5', // Moccasin - Morning light
-    '#FFDAB9', // Peach - Gentle sunrise
-    '#FF7F50', // Coral - Sunset prayers
-    '#CD853F', // Peru - Earth & harvest
-    '#DAA520', // Goldenrod - Prosperity
-    '#B8860B', // Dark goldenrod - Spiritual depth
-    '#FFAA33'  // Bright gold - Festival joy
-  ];
-
-  // Spark represents flower petals and sun rays during Chhath celebration
-  class Spark {
-    constructor(x, y, color, angle, speed) {
-      this.x = x;
-      this.y = y;
-      this.color = color;
-      this.vx = Math.cos(angle) * speed;
-      this.vy = Math.sin(angle) * speed;
-      this.life = 1;
-      this.size = Math.random() * 3 + 2; // Larger for petal effect
-      this.rotation = Math.random() * Math.PI * 2;
-      this.rotationSpeed = (Math.random() - 0.5) * 0.1;
-    }
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      this.vy += 0.12; // Gentle gravity like floating petals
-      this.vx *= 0.99; // Air resistance
-      this.rotation += this.rotationSpeed;
-      this.life -= 0.02; // Slower fade for graceful descent
-    }
-    draw() {
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
-      ctx.globalAlpha = this.life;
-      
-      // Draw petal-like shape
-      ctx.fillStyle = this.color;
-      ctx.shadowColor = this.color;
-      ctx.shadowBlur = 25 * this.life + 8;
-      
-      // Petal shape
-      ctx.beginPath();
-      ctx.ellipse(0, 0, this.size * 1.5, this.size * 0.8, 0, 0, Math.PI * 2);
-      ctx.fill();
-      
-      // Inner glow
-      ctx.fillStyle = '#FFFFFF';
-      ctx.globalAlpha = this.life * 0.5;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, this.size * 0.6, this.size * 0.4, 0, 0, Math.PI * 2);
-      ctx.fill();
-      
-      ctx.restore();
-      ctx.globalAlpha = 1;
-    }
-  }
-
-  // Sun symbol representing Surya Dev - central deity of Chhath Puja
-  class SunOffering {
-    constructor() {
-      this.x = canvas.width / 2;
-      this.y = canvas.height + 30;
-      this.vy = -20;
-      this.exploded = false;
-      this.sparks = [];
-      this.angle = 0;
-    }
-    update() {
-      if (!this.exploded) {
-        this.y += this.vy;
-        this.vy += 0.45; // Smooth upward motion
-        this.angle += 0.05; // Gentle rotation
-        if (this.vy > 0 || this.y < canvas.height * 0.15) {
-          this.explode();
-        }
-      } else {
-        this.sparks = this.sparks.filter(s => s.life > 0);
-        this.sparks.forEach(s => s.update());
-      }
-    }
-    draw() {
-      if (!this.exploded) {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        
-        // Draw sun symbol (Surya)
-        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 20);
-        gradient.addColorStop(0, '#FFD700');
-        gradient.addColorStop(0.5, '#FF6B35');
-        gradient.addColorStop(1, '#FFA500');
-        
-        // Sun circle
-        ctx.fillStyle = gradient;
-        ctx.shadowColor = '#FFD700';
-        ctx.shadowBlur = 30;
-        ctx.beginPath();
-        ctx.arc(0, 0, 15, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Sun rays
-        ctx.strokeStyle = '#FFD700';
-        ctx.lineWidth = 3;
-        ctx.shadowBlur = 20;
-        for (let i = 0; i < 8; i++) {
-          const angle = (Math.PI * 2 * i) / 8;
-          ctx.beginPath();
-          ctx.moveTo(Math.cos(angle) * 18, Math.sin(angle) * 18);
-          ctx.lineTo(Math.cos(angle) * 28, Math.sin(angle) * 28);
-          ctx.stroke();
-        }
-        
-        ctx.restore();
-      } else {
-        this.sparks.forEach(s => s.draw());
-      }
-    }
-    explode() {
-      this.exploded = true;
-      // Create 80 petals representing offerings (flowers, fruits) at Chhath
-      for (let i = 0; i < 80; i++) {
-        const angle = (Math.PI * 2 * i) / 80;
-        const speed = Math.random() * 10 + 6;
-        const color = chhathColors[Math.floor(Math.random() * chhathColors.length)];
-        this.sparks.push(new Spark(this.x, this.y, color, angle, speed));
-      }
-    }
-    isDone() {
-      return this.exploded && this.sparks.length === 0;
-    }
-  }
-
-  const sunOffering = new SunOffering();
-
-  function animate() {
-    // Create subtle golden gradient background during animation
-    const gradient = ctx.createRadialGradient(
-      canvas.width / 2, canvas.height * 0.15, 0,
-      canvas.width / 2, canvas.height * 0.15, canvas.width * 0.6
-    );
-    gradient.addColorStop(0, 'rgba(255, 215, 0, 0.03)');
-    gradient.addColorStop(1, 'rgba(255, 107, 53, 0.01)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    sunOffering.update();
-    sunOffering.draw();
-    
-    if (!sunOffering.isDone()) {
-      requestAnimationFrame(animate);
-    } else {
-      // Keep for 1 second then remove
-      setTimeout(() => {
-        document.getElementById('rocket-launch').remove();
-      }, 1000);
-    }
-  }
-
-  animate();
-
-  // Handle window resize
-  window.addEventListener('resize', () => {
-    crackerCanvas.width = window.innerWidth;
-    crackerCanvas.height = window.innerHeight;
-  });
-}  // Mobile nav toggle
+  // Mobile nav toggle
   const toggle = $('.nav__toggle');
   const menu = $('#nav-menu');
   if (toggle && menu) {

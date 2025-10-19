@@ -295,12 +295,6 @@ img, svg { display: block; max-width: 100%; }
   pointer-events: none;
 }
 
-.theme-banner.dim {
-  opacity: 0.65;
-  transition: opacity 1.2s;
-}
-
-
 body.chhath-theme .theme-banner {
   background: linear-gradient(135deg, #FFD700 0%, #FF6B35 100%);
   color: #8B4513;
@@ -352,7 +346,7 @@ body.chhath-theme .section__title::after {
 }
 
 body.vasant-panchami-theme .section__title::before {
-  content: '��🎓🪶 ';
+  content: '🌸🎓🪶 ';
   margin-right: 0.5rem;
 }
 body.vasant-panchami-theme .section__title::after {
@@ -361,20 +355,20 @@ body.vasant-panchami-theme .section__title::after {
 }
 
 body.holi-theme .section__title::before {
-  content: '🔥🎨 ';
+  content: '🔥🎨⏰ ';
   margin-right: 0.5rem;
 }
 body.holi-theme .section__title::after {
-  content: ' 🔥🎨';
+  content: ' �📚💡';
   margin-left: 0.5rem;
 }
 
 body.exam-season-theme .section__title::before {
-  content: '🏆📚 ';
+  content: '📝 ';
   margin-right: 0.5rem;
 }
 body.exam-season-theme .section__title::after {
-  content: ' 💡';
+  content: ' 🎯';
   margin-left: 0.5rem;
 }
 
@@ -383,7 +377,7 @@ body.independence-day-theme .section__title::before {
   margin-right: 0.5rem;
 }
 body.independence-day-theme .section__title::after {
-  content: ' 🦁';
+  content: ' �';
   margin-left: 0.5rem;
 }
 
@@ -394,82 +388,6 @@ body.engineers-day-theme .section__title::before {
 body.engineers-day-theme .section__title::after {
   content: ' ⚙️';
   margin-left: 0.5rem;
-}
-
-/* Floating Decorative Icons Around Page */
-body.holi-theme::after {
-  content: '🔥 🎨 🔥 🎨 🔥 🎨 🔥 🎨';
-  position: fixed;
-  top: 50%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 2rem;
-  opacity: 0.1;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 3rem;
-  transform: translateY(-50%);
-}
-
-body.exam-season-theme::after {
-  content: '🏆 📚 💡 �� 📚 💡 🏆 📚 💡';
-  position: fixed;
-  top: 50%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 2rem;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 3rem;
-  transform: translateY(-50%);
-}
-
-body.vasant-panchami-theme::after {
-  content: '🌸 🎓 ✨ 🌸 🎓 ✨ 🌸 🎓 ✨';
-  position: fixed;
-  top: 50%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 2rem;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 3rem;
-  transform: translateY(-50%);
-}
-
-body.independence-day-theme::after {
-  content: '🇮🇳 🪔 🦁 🇮🇳 🪔 🦁 🇮🇳 🪔 🦁';
-  position: fixed;
-  top: 50%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 2rem;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 3rem;
-  transform: translateY(-50%);
-}
-
-body.engineers-day-theme::after {
-  content: '🔩 📐 ⚙️ 🔩 📐 ⚙️ 🔩 📐 ⚙️';
-  position: fixed;
-  top: 50%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 2rem;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-  letter-spacing: 3rem;
-  transform: translateY(-50%);
 }
 
 body.chhath-theme .site-header {
