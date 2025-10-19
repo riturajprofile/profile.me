@@ -68,46 +68,104 @@
       <section id="about" class="section section--alt">
         <div class="container narrow reveal">
           <h2 class="section__title">About Me</h2>
-          <p>
-            I'm a Data Science student pursuing a BS degree from IIT Madras, currently completing my diploma. I focus on
-            Python, Machine Learning, Business Analysis, and Data Analysis. I'm motivated by solving real-world problems and
-            communicating insights clearly to stakeholders.
+          <p class="lead">
+            I'm a Data Science student at IIT Madras, passionate about turning data into actionable insights and building intelligent systems that solve real-world problems.
           </p>
-          <!-- LinkedIn dynamic profile details (loaded via /api/linkedin) -->
-          <div id="linkedin-profile" class="card li-profile hidden" aria-live="polite"></div>
-          <div id="linkedin-error" class="error hidden" role="alert"></div>
+          
+          <div class="about-grid">
+            <div class="about-card">
+              <div class="about-card__icon">🤖</div>
+              <h3>Machine Learning</h3>
+              <p>Experienced in supervised and unsupervised learning techniques, with growing expertise in deep learning and generative AI. I build predictive models using scikit-learn, TensorFlow, and PyTorch.</p>
+            </div>
+            
+            <div class="about-card">
+              <div class="about-card__icon">📊</div>
+              <h3>Data Analysis</h3>
+              <p>Skilled in exploratory data analysis, statistical modeling, and data visualization. I work with Pandas, NumPy, and Matplotlib to extract meaningful patterns and communicate insights effectively.</p>
+            </div>
+            
+            <div class="about-card">
+              <div class="about-card__icon">💻</div>
+              <h3>Software Development</h3>
+              <p>Strong foundation in Data Structures & Algorithms with experience in Python, Java, and SQL. I build web applications using Flask and SQLAlchemy, focusing on clean, maintainable code.</p>
+            </div>
+            
+            <div class="about-card">
+              <div class="about-card__icon">📈</div>
+              <h3>Business Analytics</h3>
+              <p>Understanding business problems and translating them into data-driven solutions. I focus on creating models that deliver tangible business value and actionable recommendations.</p>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- Skills Section -->
       <section id="skills" class="section">
         <div class="container reveal">
-          <h2 class="section__title">Skills</h2>
-          <ul class="skills">
-            <li class="skill">Python</li>
-            <li class="skill">Machine Learning</li>
-            <li class="skill">Business Analysis</li>
-            <li class="skill">Data Analysis</li>
-            <li class="skill">Pandas</li>
-            <li class="skill">NumPy</li>
-            <li class="skill">scikit-learn</li>
-            <li class="skill">Visualization</li>
-            <li class="skill">SQL</li>
-            <li class="skill">Git/GitHub</li>
-          </ul>
+          <h2 class="section__title">Skills & Technologies</h2>
+          
+          <div class="skills-category">
+            <h3 class="skills-category__title">Languages & Core</h3>
+            <ul class="skills">
+              <li class="skill skill--primary">Python</li>
+              <li class="skill">Java</li>
+              <li class="skill">SQL</li>
+              <li class="skill">JavaScript</li>
+              <li class="skill">HTML/CSS</li>
+            </ul>
+          </div>
+          
+          <div class="skills-category">
+            <h3 class="skills-category__title">Machine Learning & AI</h3>
+            <ul class="skills">
+              <li class="skill skill--primary">Scikit-learn</li>
+              <li class="skill skill--primary">TensorFlow</li>
+              <li class="skill">PyTorch</li>
+              <li class="skill">Deep Learning</li>
+              <li class="skill">NLP</li>
+              <li class="skill">Computer Vision</li>
+            </ul>
+          </div>
+          
+          <div class="skills-category">
+            <h3 class="skills-category__title">Data Analysis & Visualization</h3>
+            <ul class="skills">
+              <li class="skill skill--primary">Pandas</li>
+              <li class="skill skill--primary">NumPy</li>
+              <li class="skill">Matplotlib</li>
+              <li class="skill">Seaborn</li>
+              <li class="skill">Plotly</li>
+              <li class="skill">Statistical Analysis</li>
+            </ul>
+          </div>
+          
+          <div class="skills-category">
+            <h3 class="skills-category__title">Development & Tools</h3>
+            <ul class="skills">
+              <li class="skill">Flask</li>
+              <li class="skill">SQLAlchemy</li>
+              <li class="skill">Git/GitHub</li>
+              <li class="skill">Linux/Unix</li>
+              <li class="skill">Jupyter</li>
+              <li class="skill">VS Code</li>
+            </ul>
+          </div>
+          
+          <div class="skills-category">
+            <h3 class="skills-category__title">Concepts & Methodologies</h3>
+            <ul class="skills">
+              <li class="skill">Data Structures & Algorithms</li>
+              <li class="skill">Database Design</li>
+              <li class="skill">Business Analytics</li>
+              <li class="skill">Model Evaluation</li>
+              <li class="skill">Feature Engineering</li>
+              <li class="skill">Agile Development</li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <!-- LinkedIn Recent Posts (optional) -->
-      <section class="section section--alt">
-        <div class="container reveal">
-          <div class="section__header">
-            <h2 class="section__title">Recent on LinkedIn</h2>
-            <a class="link" href="https://www.linkedin.com/in/riturajprofile" target="_blank" rel="noopener noreferrer">View profile →</a>
-          </div>
-          <div id="linkedin-posts" class="projects-grid hidden" aria-live="polite"></div>
-        </div>
-      </section>
 
       <!-- Projects Section -->
       <section id="projects" class="section section--alt">
@@ -133,24 +191,50 @@
       <!-- Education Section -->
       <section id="education" class="section">
         <div class="container reveal">
-          <h2 class="section__title">Education</h2>
-          <div class="timeline">
-            <div class="timeline__item">
-              <div class="timeline__dot"></div>
-              <div class="timeline__content">
-                <h3>Indian Institute of Technology Madras (IIT Madras)</h3>
-                <p>BS in Data Science</p>
-                <span class="muted">Student • Currently pursuing</span>
-              </div>
-            </div>
-            <div class="timeline__item">
-              <div class="timeline__dot"></div>
-              <div class="timeline__content">
-                <h3>Diploma (Current)</h3>
-                <p>Specialization aligned with Data Science curriculum</p>
-                <span class="muted">In progress</span>
-              </div>
-            </div>
+          <h2 class="section__title">Education &amp; Coursework</h2>
+          <div class="edu-block">
+            <h3>B.S. in Data Science &amp; Applications</h3>
+            <span class="timeline__meta">Indian Institute of Technology, Madras</span>
+            <span class="timeline__date">2022 – Present</span>
+          </div>
+          <div class="edu-block">
+            <h4>Foundational Level</h4>
+            <strong>Completed Courses</strong>
+            <ul>
+              <li>Statistics for Data Science I</li>
+              <li>Programming in Python</li>
+              <li>Statistics for Data Science II</li>
+              <li>Computational Thinking</li>
+              <li>Mathematics for Data Science I</li>
+              <li>Mathematics for Data Science II</li>
+              <li>English I</li>
+              <li>English II</li>
+            </ul>
+          </div>
+          <div class="edu-block">
+            <h4>Diploma Level</h4>
+            <strong>Completed Courses</strong>
+            <ul>
+              <li>System Commands (Programming)</li>
+              <li>Modern Application Development I (Programming)</li>
+              <li>Business Data Management (Data Science)</li>
+              <li>Modern Application Development II (Programming)</li>
+              <li>Programming, Data Structures and Algorithms using Python (Programming)</li>
+              <li>Database Management Systems (Programming)</li>
+              <li>Machine Learning Techniques (Data Science)</li>
+              <li>Machine Learning Foundations (Data Science)</li>
+            </ul>
+            <strong>Current Courses</strong>
+            <ul>
+              <li>Programming Concepts using Java (Programming)</li>
+              <li>Business Analytics (Data Science)</li>
+              <li>Tools in Data Science (Data Science)</li>
+            </ul>
+            <strong>Pending Courses</strong>
+            <ul>
+              <li>Machine Learning Practice (Data Science)</li>
+              <li>Introduction to Deep Learning and Generative AI (Data Science)</li>
+            </ul>
           </div>
         </div>
       </section>

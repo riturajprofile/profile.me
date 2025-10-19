@@ -1,21 +1,34 @@
 /*
   Ritu Raj — Data Science Portfolio
-  Color palette:
-  Primary: #2563eb, Secondary: #1e293b, Background: #ffffff, Text: #334155, Accent: #60a5fa
+  Enhanced Modern Theme with Professional Color Palette
+  Primary: Blue gradient for tech/data science
+  Accent: Purple for AI/ML emphasis
 */
 
 :root {
   --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --accent: #8b5cf6;
+  --accent-dark: #7c3aed;
   --secondary: #1e293b;
   --bg: #ffffff;
+  --bg-alt: #f8fafc;
+  --bg-subtle: #f1f5f9;
   --text: #334155;
-  --accent: #60a5fa;
-  --muted: #64748b;
+  --text-light: #64748b;
   --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --success: #10b981;
+  --error: #ef4444;
   --radius: 12px;
-  --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.05);
-  --shadow-md: 0 8px 24px rgba(2, 6, 23, 0.08);
-  --shadow-lg: 0 16px 40px rgba(2, 6, 23, 0.12);
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  --gradient-accent: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  --gradient-subtle: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
 }
 
 * { box-sizing: border-box; }
@@ -60,7 +73,16 @@ img, svg { display: block; max-width: 100%; }
 }
 
 .section--alt {
-  background: #f8fafc;
+  background: var(--bg-alt);
+  position: relative;
+}
+
+.section--alt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(37, 99, 235, 0.02) 100%);
+  pointer-events: none;
 }
 
 .section__title {
@@ -164,10 +186,117 @@ img, svg { display: block; max-width: 100%; }
 .btn--ghost { background: transparent; color: var(--secondary); border-color: var(--border); }
 .btn--ghost:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--shadow-sm); }
 
+/* About Cards */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.about-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: transform .2s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(37, 99, 235, .25);
+}
+
+.about-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: .75rem;
+}
+
+.about-card h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.15rem;
+  color: var(--secondary);
+}
+
+.about-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
 /* Skills */
-.skills { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
-.skill { background: #f1f5f9; border: 1px solid var(--border); color: var(--secondary); padding: .5rem .75rem; border-radius: 999px; font-weight: 600; font-size: .95rem; transition: transform .15s ease, box-shadow .25s ease; }
-.skill:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.skills-category {
+  margin-bottom: 2rem;
+}
+
+.skills-category:last-child {
+  margin-bottom: 0;
+}
+
+.skills-category__title {
+  font-size: 1.1rem;
+  color: var(--secondary);
+  margin: 0 0 .75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.skills-category__title::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.skills { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: .5rem; 
+}
+
+.skill { 
+  background: #f1f5f9; 
+  border: 1px solid var(--border); 
+  color: var(--secondary); 
+  padding: .5rem .75rem; 
+  border-radius: 999px; 
+  font-weight: 600; 
+  font-size: .9rem; 
+  transition: transform .15s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease; 
+}
+
+.skill:hover { 
+  transform: translateY(-2px); 
+  box-shadow: var(--shadow-sm); 
+  background: white;
+  border-color: var(--primary);
+}
+
+.skill--primary {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.skill--primary:hover {
+  background: #dbeafe;
+  border-color: var(--primary);
+}
 
 /* Cards / Projects */
 .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
@@ -196,7 +325,96 @@ img, svg { display: block; max-width: 100%; }
 }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
-/* Timeline */
+/* Education Section */
+.edu-block {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease, box-shadow .25s ease;
+}
+
+.edu-block:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.edu-block h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.35rem;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.edu-block h4 {
+  margin: 1.5rem 0 .75rem;
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.edu-block h4::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.edu-block strong {
+  display: block;
+  margin: 1rem 0 .5rem;
+  color: var(--secondary);
+  font-size: .95rem;
+  font-weight: 600;
+}
+
+.edu-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 .5rem;
+}
+
+.edu-block ul li {
+  padding: .5rem 0 .5rem 1.5rem;
+  position: relative;
+  color: var(--text);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+.edu-block ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.timeline__meta {
+  display: block;
+  color: var(--text-light);
+  font-size: .95rem;
+  margin: .25rem 0;
+}
+
+.timeline__date {
+  display: inline-block;
+  background: var(--bg-subtle);
+  color: var(--text);
+  padding: .25rem .75rem;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-top: .5rem;
+}
+
+/* Timeline (legacy support) */
 .timeline { display: grid; gap: 1.25rem; }
 .timeline__item { display: grid; grid-template-columns: auto 1fr; gap: .75rem 1rem; align-items: start; }
 .timeline__dot { width: 12px; height: 12px; border-radius: 50%; background: var(--primary); margin-top: .45rem; box-shadow: 0 0 0 4px rgba(37,99,235,.15); }
