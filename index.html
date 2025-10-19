@@ -16,22 +16,41 @@
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+    <!-- Diwali Cracker Animation -->
+    <div class="rocket-container" id="rocket-launch">
+      <canvas id="rocket-trail-canvas"></canvas>
+    </div>
+
     <!-- Sticky Navigation -->
     <header class="site-header" id="top">
       <nav class="nav container" aria-label="Primary">
         <a href="#hero" class="brand" aria-label="Home">
-          <span class="brand__dot"></span>
+          <span class="hero__car" title="Rituraj's car">
+                
+                <svg width="30" height="22" viewBox="0 0 30 32"  xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="15" cy="16" r="16" style="fill:#41bdf5"/>
+                    <path d="m502.4 719-.4-.4.4.4H315.2c-5.8 0-10.4-4.7-10.4-10.4v-179H258c-6.9 0-12.5-5.6-12.5-12.5 0-3.3 1.3-6.5 3.6-8.8l251.7-254.7c6.1-6.2 16-6.2 22.2-.1l.1.1 131.5 132.3v-24.5c0-5.8 4.7-10.4 10.4-10.4h43.7c5.8 0 10.4 4.7 10.4 10.4v89.9l55.9 57c4.8 4.9 4.8 12.9-.2 17.7-2.3 2.3-5.5 3.6-8.8 3.6h-46.9v178.9c0 5.8-4.7 10.4-10.4 10.4H521.4l.2-.2-.2.2 39-38.9h36c2.8 7.8 10.2 13.4 19 13.4 11.1 0 20.2-9 20.2-20.1 0-11.1-9-20.1-20.2-20.1-8.8 0-16.3 5.6-19 13.4h-41.6l-36.2 36.2v-44.1l43.1-43.1h69.7c2.8 7.8 10.2 13.4 19 13.4 11.1 0 20.2-9 20.2-20.1 0-11.1-9-20.1-20.2-20.1-8.8 0-16.3 5.6-19 13.4h-56.2l40.3-40.2v-33.6l29-28.9c2.6 1.3 5.6 2 8.7 2 11.1 0 20.2-9 20.2-20.1 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 3.1.7 6.1 2 8.7l-19.5 19.4V448c7.8-2.8 13.5-10.2 13.5-19 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 8.8 5.6 16.2 13.5 19v61.5L582.6 490c1.3-2.6 2-5.6 2-8.7 0-11.1-9-20.1-20.2-20.1s-20.2 9-20.2 20.1c0 11.1 9 20.1 20.2 20.1 3.1 0 6.1-.7 8.7-2l29 28.9v28l-36.3 36.3V566c7.8-2.8 13.5-10.2 13.5-19 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 8.8 5.6 16.2 13.5 19v40l-33.6 33.6V442.4l27.6-27.6c2.6 1.3 5.6 2 8.7 2 11.1 0 20.2-9 20.2-20.1 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 3.1.7 6.1 2 8.7l-24.8 24.8-24.8-24.8c1.3-2.6 2-5.6 2-8.7 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 11.1 9 20.1 20.2 20.1 3.1 0 6.1-.7 8.7-2l27.6 27.6v140.8L457 534.9v-38.6c7.8-2.8 13.5-10.2 13.5-19 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 8.8 5.6 16.2 13.5 19v25.2l-37.7-37.6v-37.3c7.8-2.8 13.5-10.2 13.5-19 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 8.8 5.6 16.2 13.5 19v42.9l41.6 41.5h-23.9c-2.8-7.8-10.2-13.4-19-13.4-11.1 0-20.2 9-20.2 20.1s9 20.1 20.2 20.1c8.8 0 16.3-5.6 19-13.4h37.4l57.9 57.8v100.5l-30.9-30.9v-38.7c7.8-2.8 13.5-10.2 13.5-19 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 8.8 5.6 16.2 13.5 19v25.2l-45-44.9c1.3-2.6 2-5.6 2-8.7 0-11.1-9-20.1-20.2-20.1-11.1 0-20.2 9-20.2 20.1 0 11.1 9 20.1 20.2 20.1 3.1 0 6.1-.7 8.7-2l45 44.9h-23.9c-2.8-7.8-10.2-13.4-19-13.4-11.1 0-20.2 9-20.2 20.1 0 11.1 9 20.1 20.2 20.1 8.8 0 16.3-5.6 19-13.4h37.4l37.2 37.9M398.9 419.5c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm51.1 49.7c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm18.9-80.6c-4.5 0-8.1 3.6-8.1 8.1s3.6 8.1 8.1 8.1 8.1-3.6 8.1-8.1-3.7-8.1-8.1-8.1zm184.3 100.7c4.5 0 8.1-3.6 8.1-8.1s-3.6-8.1-8.1-8.1-8.1 3.6-8.1 8.1 3.6 8.1 8.1 8.1zM555 404.7c4.5 0 8.1-3.6 8.1-8.1s-3.6-8.1-8.1-8.1-8.1 3.6-8.1 8.1 3.6 8.1 8.1 8.1zm9.4 68.5c-4.5 0-8.1 3.6-8.1 8.1s3.6 8.1 8.1 8.1 8.1-3.6 8.1-8.1-3.7-8.1-8.1-8.1zm-173.6 56.4c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm259.7 87.3c4.5 0 8.1-3.6 8.1-8.1s-3.6-8.1-8.1-8.1-8.1 3.6-8.1 8.1 3.6 8.1 8.1 8.1zm-41.7-196c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1c-.1-4.5-3.7-8.1-8.1-8.1zM559 539c-4.5 0-8.1 3.6-8.1 8.1s3.6 8.1 8.1 8.1 8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm-161.4 57.8c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1c-.1-4.5-3.7-8.1-8.1-8.1zm10.7 69.8c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1zm207.2 14.8c4.5 0 8.1-3.6 8.1-8.1 0-4.4-3.6-8.1-8.1-8.1s-8.1 3.6-8.1 8.1 3.6 8.1 8.1 8.1zm-148-75.2c-4.5 0-8.1 3.6-8.1 8.1 0 4.4 3.6 8.1 8.1 8.1s8.1-3.6 8.1-8.1-3.6-8.1-8.1-8.1z" style="fill:#fff"/>
+                </svg>
+          </span>
           Ritu Raj
         </a>
         <button class="nav__toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
           <span></span><span></span><span></span>
         </button>
-        <ul class="nav__menu" id="nav-menu">
+  <ul class="nav__menu" id="nav-menu">
           <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#education">Education</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><button id="ai-badge" class="hero__ai" type="button" title="AI features">AI</button></li>
+            <div id="ai-popup" class="ai-popup hidden" role="dialog" aria-modal="true" aria-labelledby="ai-popup-title">
+              <div class="ai-popup__content">
+                <h3 id="ai-popup-title">AI</h3>
+                <p>Coming soon</p>
+                <button id="ai-popup-close" class="btn btn--ghost" type="button">Close</button>
+              </div>
+            </div>
         </ul>
       </nav>
     </header>
@@ -41,10 +60,20 @@
       <section id="hero" class="section hero">
         <div class="container grid-2">
           <div class="hero__content reveal" data-delay="1">
-            <h1 class="hero__title">Hi, I'm <span class="accent">Ritu Raj</span></h1>
-            <p class="hero__subtitle" data-delay="2">Data Science student • BS at IIT Madras</p>
+            <h1 class="hero__title">Hi, I'm <span class="accent">Ritu Raj</span>
+              
+            </h1>
+            <p class="hero__subtitle" data-delay="2">Data Science student • BS at IIT Madras
+            </p>
             <p class="hero__text" data-delay="3">Currently completing diploma. I enjoy turning data into insights and building practical, business-focused ML solutions.</p>
             <div class="hero__actions" data-delay="4">
+              <div id="ai-popup" class="ai-popup hidden" role="dialog" aria-modal="true" aria-labelledby="ai-popup-title">
+                <div class="ai-popup__content">
+                  <h3 id="ai-popup-title">AI</h3>
+                  <p>Coming soon</p>
+                  <button id="ai-popup-close" class="btn btn--ghost" type="button">Close</button>
+                </div>
+              </div>
               <a class="btn btn--primary" href="assets/resume/Ritu_Raj_Resume.pdf" download>
                 Download Resume
               </a>
@@ -55,10 +84,9 @@
             </div>
           </div>
           <div class="hero__visual reveal" aria-hidden="true">
-            <div class="profile-wrap" aria-hidden="false">
-              <div class="profile-decor" aria-hidden="true"></div>
-              <!-- Replace assets/img/profile.jpg with your provided image file. -->
-              <img id="profile-img" src="assets/img/profile.jpg" alt="Ritu Raj profile photo" class="profile-photo img--frame img--shadow img--zoom img--cover" />
+            <div class="profile-wrap profile-wrap--vector" aria-hidden="false">
+              <div class="profile-gradient-ring"></div>
+              <img id="profile-img" src="assets/img/profile.jpg" alt="Ritu Raj profile photo" class="profile-photo profile-photo--vector" />
             </div>
           </div>
         </div>
@@ -69,32 +97,104 @@
         <div class="container narrow reveal">
           <h2 class="section__title">About Me</h2>
           <p class="lead">
-            I'm a Data Science student at IIT Madras, passionate about turning data into actionable insights and building intelligent systems that solve real-world problems.
+            I'm a Data Science student at IIT Madras on a mission to transform complex data into meaningful stories and intelligent solutions. My journey combines rigorous academic training with hands-on project experience, allowing me to bridge the gap between theoretical concepts and real-world impact.
+          </p>
+          <p class="lead-secondary">
+            What drives me is the excitement of uncovering hidden patterns in data and building systems that learn and adapt. Whether it's predicting outcomes, automating decisions, or visualizing insights, I approach each challenge with curiosity and a commitment to creating solutions that matter.
           </p>
           
           <div class="about-grid">
             <div class="about-card">
-              <div class="about-card__icon">🤖</div>
-              <h3>Machine Learning</h3>
-              <p>Experienced in supervised and unsupervised learning techniques, with growing expertise in deep learning and generative AI. I build predictive models using scikit-learn, TensorFlow, and PyTorch.</p>
+              <div class="about-card__icon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="20" y="12" width="24" height="16" rx="2" fill="url(#grad1)" opacity="0.2"/>
+                  <circle cx="26" cy="20" r="3" fill="url(#grad1)"/>
+                  <circle cx="38" cy="20" r="3" fill="url(#grad1)"/>
+                  <path d="M24 26 Q32 30 40 26" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" fill="none"/>
+                  <rect x="16" y="32" width="32" height="20" rx="3" fill="url(#grad1)" opacity="0.3"/>
+                  <path d="M28 38 L28 46 M36 38 L36 46" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="32" cy="42" r="6" fill="url(#grad1)" opacity="0.4"/>
+                  <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <h3>Machine Learning Engineer</h3>
+              <p>I design and deploy machine learning models that solve real problems. From supervised learning for prediction tasks to unsupervised methods for pattern discovery, I work with scikit-learn, TensorFlow, and PyTorch to build intelligent systems. Currently exploring deep learning and generative AI to push the boundaries of what's possible.</p>
             </div>
             
             <div class="about-card">
-              <div class="about-card__icon">📊</div>
-              <h3>Data Analysis</h3>
-              <p>Skilled in exploratory data analysis, statistical modeling, and data visualization. I work with Pandas, NumPy, and Matplotlib to extract meaningful patterns and communicate insights effectively.</p>
+              <div class="about-card__icon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="12" y="16" width="8" height="32" rx="1" fill="url(#grad2)" opacity="0.7"/>
+                  <rect x="24" y="24" width="8" height="24" rx="1" fill="url(#grad2)" opacity="0.8"/>
+                  <rect x="36" y="20" width="8" height="28" rx="1" fill="url(#grad2)" opacity="0.9"/>
+                  <rect x="48" y="28" width="8" height="20" rx="1" fill="url(#grad2)"/>
+                  <path d="M16 14 L28 20 L40 16 L52 24" stroke="url(#grad2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <circle cx="16" cy="14" r="2.5" fill="url(#grad2)"/>
+                  <circle cx="28" cy="20" r="2.5" fill="url(#grad2)"/>
+                  <circle cx="40" cy="16" r="2.5" fill="url(#grad2)"/>
+                  <circle cx="52" cy="24" r="2.5" fill="url(#grad2)"/>
+                  <defs>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <h3>Data Analyst & Storyteller</h3>
+              <p>Numbers tell stories when you know how to listen. I specialize in exploratory data analysis, statistical modeling, and creating compelling visualizations that drive decisions. Using Pandas, NumPy, and visualization libraries, I transform raw data into actionable insights that stakeholders can understand and act upon.</p>
             </div>
             
             <div class="about-card">
-              <div class="about-card__icon">💻</div>
-              <h3>Software Development</h3>
-              <p>Strong foundation in Data Structures & Algorithms with experience in Python, Java, and SQL. I build web applications using Flask and SQLAlchemy, focusing on clean, maintainable code.</p>
+              <div class="about-card__icon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="16" y="12" width="32" height="40" rx="2" fill="url(#grad3)" opacity="0.15"/>
+                  <rect x="20" y="16" width="24" height="3" rx="1" fill="url(#grad3)" opacity="0.6"/>
+                  <rect x="20" y="22" width="18" height="3" rx="1" fill="url(#grad3)" opacity="0.5"/>
+                  <rect x="20" y="28" width="20" height="3" rx="1" fill="url(#grad3)" opacity="0.5"/>
+                  <rect x="20" y="34" width="16" height="3" rx="1" fill="url(#grad3)" opacity="0.4"/>
+                  <path d="M24 42 L28 46 L36 38" stroke="url(#grad3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="42" cy="42" r="8" fill="url(#grad3)" opacity="0.2"/>
+                  <path d="M38 42 L40 44 L46 38" stroke="url(#grad3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <defs>
+                    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <h3>Full-Stack Developer</h3>
+              <p>Behind every great data solution is solid engineering. With a strong foundation in Data Structures & Algorithms, I build efficient, scalable applications using Python, Java, and SQL. My web development skills with Flask and SQLAlchemy allow me to create end-to-end data applications with intuitive interfaces.</p>
             </div>
             
             <div class="about-card">
-              <div class="about-card__icon">📈</div>
-              <h3>Business Analytics</h3>
-              <p>Understanding business problems and translating them into data-driven solutions. I focus on creating models that deliver tangible business value and actionable recommendations.</p>
+              <div class="about-card__icon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 48 L22 32 L32 38 L42 22 L52 28" stroke="url(#grad4)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  <circle cx="12" cy="48" r="3" fill="url(#grad4)"/>
+                  <circle cx="22" cy="32" r="3" fill="url(#grad4)"/>
+                  <circle cx="32" cy="38" r="3" fill="url(#grad4)"/>
+                  <circle cx="42" cy="22" r="3" fill="url(#grad4)"/>
+                  <circle cx="52" cy="28" r="3" fill="url(#grad4)"/>
+                  <path d="M52 28 L56 18 L60 16" stroke="url(#grad4)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+                  <path d="M54 18 L60 16 L58 22" stroke="url(#grad4)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="url(#grad4)" opacity="0.8"/>
+                  <rect x="8" y="52" width="48" height="2" rx="1" fill="url(#grad4)" opacity="0.3"/>
+                  <defs>
+                    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <h3>Business Analytics Specialist</h3>
+              <p>I speak both languages—data and business. By understanding organizational goals and translating them into analytical frameworks, I create models that deliver measurable business value. My focus is on solutions that are not just technically sound, but strategically aligned with business objectives.</p>
             </div>
           </div>
         </div>
@@ -167,6 +267,64 @@
       </section>
 
 
+      <!-- Featured Projects Section -->
+      <section id="featured-projects" class="section">
+        <div class="container reveal">
+          <h2 class="section__title">Featured Projects</h2>
+          <div class="projects-grid">
+            <article class="card">
+              <h3 class="card__title">Data Dashboarding & Insights</h3>
+              <p class="card__desc">Built interactive dashboards to summarize and visualize data, uncovering trends and actionable insights for business decisions. Explored city-wise brand preferences and data-driven segmentation.</p>
+              <div class="card__meta">
+                <span class="tag">Python</span>
+                <span class="tag">Pandas</span>
+                <span class="tag">Visualization</span>
+                <span class="tag">Business Analysis</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3 class="card__title">Predictive Modeling & ML</h3>
+              <p class="card__desc">Developed regression and classification models for stock returns, salary analysis, and medical outcomes. Used scikit-learn for linear/logistic regression, SVM, decision trees, and ensemble methods.</p>
+              <div class="card__meta">
+                <span class="tag">scikit-learn</span>
+                <span class="tag">Regression</span>
+                <span class="tag">Classification</span>
+                <span class="tag">Model Evaluation</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3 class="card__title">Statistical Analysis & Experimentation</h3>
+              <p class="card__desc">Applied ANOVA and repeated measures analysis to study the impact of repeated ad exposure and other experimental designs. Used statistical tests to validate findings and support business recommendations.</p>
+              <div class="card__meta">
+                <span class="tag">Statistics</span>
+                <span class="tag">ANOVA</span>
+                <span class="tag">Experimental Design</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3 class="card__title">Automation & Data Engineering</h3>
+              <p class="card__desc">Automated data processing and reporting using Linux, Bash, AWK, and sed. Built scripts for log analysis, data cleaning, and workflow automation in real-world data projects.</p>
+              <div class="card__meta">
+                <span class="tag">Linux</span>
+                <span class="tag">Bash</span>
+                <span class="tag">AWK</span>
+                <span class="tag">Automation</span>
+              </div>
+            </article>
+            <article class="card">
+              <h3 class="card__title">End-to-End ML & Deployment</h3>
+              <p class="card__desc">Completed full ML project cycles: data sourcing, preparation, modeling, and deployment. Used modern tools for version control, packaging, and collaborative development.</p>
+              <div class="card__meta">
+                <span class="tag">ML Workflow</span>
+                <span class="tag">Git</span>
+                <span class="tag">Deployment</span>
+                <span class="tag">CI/CD</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!-- Projects Section -->
       <section id="projects" class="section section--alt">
         <div class="container reveal">
@@ -195,7 +353,8 @@
           <div class="edu-block">
             <h3>B.S. in Data Science &amp; Applications</h3>
             <span class="timeline__meta">Indian Institute of Technology, Madras</span>
-            <span class="timeline__date">2022 – Present</span>
+            <span class="timeline__meta">23f2004390@ds.study.iitm.ac.in</span>
+            <span class="timeline__date">2025 – Present</span>
           </div>
           <div class="edu-block">
             <h4>Foundational Level</h4>

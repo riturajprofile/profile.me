@@ -13,7 +13,130 @@
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Mobile nav toggle
+  // Rocket launch animation - remove after completion
+/*=============== DIWALI CRACKER ANIMATION ===============*/
+const crackerContainer = document.getElementById('rocket-launch');
+const crackerCanvas = document.getElementById('rocket-trail-canvas');
+
+if (crackerContainer && crackerCanvas) {
+  const ctx = crackerCanvas.getContext('2d');
+  crackerCanvas.width = window.innerWidth;
+  crackerCanvas.height = window.innerHeight;
+
+  const colors = [
+    '#FF1744', '#FF9100', '#FFD600', '#00E676', '#00B0FF', '#E040FB', '#FF4081', '#FFEB3B',
+    '#FF69B4', '#FFB300', '#00C853', '#1DE9B6', '#2979FF', '#651FFF', '#F50057', '#C51162',
+    '#FF6F00', '#AEEA00', '#00B8D4', '#D500F9', '#FFAB91', '#B2FF59', '#76FF03', '#F44336',
+    '#FF8A65', '#B388FF', '#8C9EFF', '#00E5FF', '#FF5252', '#FF1744', '#FFD740', '#FFF176',
+    '#B2EBF2', '#B2DFDB', '#DCEDC8', '#FFCCBC', '#D1C4E9', '#F8BBD0', '#E57373', '#F06292',
+    '#BA68C8', '#9575CD', '#7986CB', '#64B5F6', '#4DD0E1', '#4DB6AC', '#81C784', '#AED581',
+    '#DCE775', '#FFF59D', '#FFD54F', '#FFB74D', '#A1887F', '#E0E0E0', '#90A4AE'
+  ];
+
+  class Spark {
+    constructor(x, y, color, angle, speed) {
+      this.x = x;
+      this.y = y;
+      this.color = color;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      this.life = 1;
+      this.size = Math.random() * 2 + 1;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vy += 0.15; // gravity
+      this.life -= 0.035; // slower fade for more visible sparks
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.life;
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 50 * this.life + 10; // strong hot glow that fades
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size + 2 * this.life, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  class Cracker {
+    constructor() {
+      this.x = crackerCanvas.width / 3;
+      this.y = crackerCanvas.height + 20;
+      this.vy = -22;
+      this.exploded = false;
+      this.sparks = [];
+    }
+    update() {
+      if (!this.exploded) {
+        this.y += this.vy;
+        this.vy += 0.5;
+        if (this.vy > 0 || this.y < crackerCanvas.height * 0.18) {
+          this.explode();
+        }
+      } else {
+        this.sparks = this.sparks.filter(s => s.life > 0);
+        this.sparks.forEach(s => s.update());
+      }
+    }
+    draw() {
+      if (!this.exploded) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.fillStyle = '#DC2626';
+        ctx.fillRect(-4, -15, 8, 30);
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(-4, -12, 8, 2);
+        ctx.fillRect(-4, -2, 8, 2);
+        ctx.fillRect(-4, 10, 8, 2);
+        ctx.restore();
+      } else {
+        this.sparks.forEach(s => s.draw());
+      }
+    }
+    explode() {
+      this.exploded = true;
+      for (let i = 0; i < 60; i++) { // more sparks for bigger spread
+        const angle = (Math.PI * 2 * i) / 60;
+        const speed = Math.random() * 12 + 8; // much wider spread
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        this.sparks.push(new Spark(this.x, this.y, color, angle, speed));
+      }
+    }
+    isDone() {
+      return this.exploded && this.sparks.length === 0;
+    }
+  }
+
+  const cracker = new Cracker();
+
+  function animate() {
+    ctx.clearRect(0, 0, crackerCanvas.width, crackerCanvas.height);
+    cracker.update();
+    cracker.draw();
+    if (!cracker.isDone()) {
+      requestAnimationFrame(animate);
+    } else {
+      // Animation complete
+      setTimeout(() => {
+        crackerContainer.remove();
+      }, 300);
+    }
+  }
+
+  // Start animation with initial timestamp
+  animate();
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    crackerCanvas.width = window.innerWidth;
+    crackerCanvas.height = window.innerHeight;
+  });
+}  // Mobile nav toggle
   const toggle = $('.nav__toggle');
   const menu = $('#nav-menu');
   if (toggle && menu) {
@@ -262,4 +385,69 @@
       try { await navigator.clipboard.writeText(`Name: ${body.name}\nEmail: ${body.email}\n\n${body.message}`); } catch(e){}
     }
   });
+
+  // Profile image rotation on Enter/Return key (fix)
+  const profileImg = document.getElementById('profile-img');
+  function rotateProfileImg() {
+    if (!profileImg) return;
+    profileImg.style.transition = 'transform 1s cubic-bezier(.7,.2,.3,1)';
+    profileImg.style.transform = 'rotate(900deg)'; // 150rpm * 1s = 900deg
+    setTimeout(() => {
+      profileImg.style.transform = '';
+      profileImg.style.transition = '';
+    }, 1000);
+  }
+  document.addEventListener('keydown', (e) => {
+    // Only trigger if not focused on input, textarea, or popup
+    const active = document.activeElement;
+    const isInput = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+    const isPopup = active && (active.closest && active.closest('.ai-popup'));
+    if (!isInput && !isPopup && (e.key === 'Enter')) {
+      rotateProfileImg();
+    }
+  });
+
+  // AI badge dropdown popup logic (nav bar)
+  const aiBadge = document.getElementById('ai-badge');
+  const aiPopup = document.getElementById('ai-popup');
+  const aiPopupClose = document.getElementById('ai-popup-close');
+  if (aiBadge && aiPopup && aiPopupClose) {
+    aiBadge.addEventListener('click', (e) => {
+      e.stopPropagation();
+      aiPopup.classList.toggle('hidden');
+      aiPopup.setAttribute('aria-hidden', aiPopup.classList.contains('hidden') ? 'true' : 'false');
+      if (!aiPopup.classList.contains('hidden')) {
+        aiPopupClose.focus();
+      }
+    });
+    aiPopupClose.addEventListener('click', () => {
+      aiPopup.classList.add('hidden');
+      aiPopup.setAttribute('aria-hidden', 'true');
+      aiBadge.focus();
+    });
+    // Close popup on Escape key
+    aiPopup.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        aiPopup.classList.add('hidden');
+        aiPopup.setAttribute('aria-hidden', 'true');
+        aiBadge.focus();
+      }
+    });
+    // Trap focus inside popup
+    aiPopup.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        aiPopupClose.focus();
+      }
+    });
+    // Close popup when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!aiPopup.classList.contains('hidden')) {
+        if (!aiPopup.contains(e.target) && e.target !== aiBadge) {
+          aiPopup.classList.add('hidden');
+          aiPopup.setAttribute('aria-hidden', 'true');
+        }
+      }
+    });
+  }
 })();
