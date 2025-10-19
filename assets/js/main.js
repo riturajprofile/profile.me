@@ -16,7 +16,7 @@
   /*=============== SEASONAL THEME SYSTEM ===============*/
   // Automatically apply themes based on date
   const now = new Date();
-  // const now = new Date(2025, 3, 5);
+  // const now = new Date(2025, 10, 15);
   const currentMonth = now.getMonth(); // 0-11
   const currentDate = now.getDate();
   
@@ -79,21 +79,24 @@
   // Update banner message if theme is active
   const themeBanner = document.querySelector('.theme-banner');
   if (themeBanner) {
-    if (themeBannerMessage) {
+    if (themeBannerMessage && activeTheme !== 'default') {
       themeBanner.innerHTML = themeBannerMessage;
-      themeBanner.style.display = 'block';
-    }
-    // Dim after 2 seconds
-    setTimeout(() => {
-      themeBanner.classList.add('dim');
-    }, 2000);
-    // Fade out and remove after 5 seconds
-    setTimeout(() => {
-      themeBanner.classList.add('fade-out');
+      themeBanner.style.display = 'flex';
+      // Dim after 2 seconds
       setTimeout(() => {
-        themeBanner.remove();
-      }, 1200);
-    }, 5000);
+        themeBanner.classList.add('dim');
+      }, 2000);
+      // Fade out and remove after 5 seconds
+      setTimeout(() => {
+        themeBanner.classList.add('fade-out');
+        setTimeout(() => {
+          themeBanner.remove();
+        }, 1200);
+      }, 5000);
+    } else {
+      // Hide banner for default theme
+      themeBanner.remove();
+    }
   }
   
   // Remove animation container if not in seasonal period

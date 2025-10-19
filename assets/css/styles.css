@@ -437,7 +437,7 @@ body.engineers-day-theme .section__title::after {
 
 /* Floating Decorative Icons Around Page */
 body.holi-theme::after {
-  content: '🔥 🎨 🔥 🎨 🔥 🎨 🔥 🎨';
+  /* content: '🎨 � 💙 💚 💛 🧡 ❤️ 🎨 💜 � 💚 � 🧡 ❤️'; */
   position: fixed;
   top: 50%;
   left: 0;
@@ -452,7 +452,7 @@ body.holi-theme::after {
 }
 
 body.exam-season-theme::after {
-  content: '🏆 📚 💡 🏆 📚 💡 🏆 📚 💡';
+  /* content: '🏆 📚 💡 🏆 📚 💡 🏆 📚 💡'; */
   position: fixed;
   top: 50%;
   left: 0;
@@ -467,7 +467,7 @@ body.exam-season-theme::after {
 }
 
 body.vasant-panchami-theme::after {
-  content: '🌸 🎓 ✨ 🌸 🎓 ✨ 🌸 🎓 ✨';
+  /* content: '🌸 🎓 ✨ 🌸 🎓 ✨ 🌸 🎓 ✨'; */
   position: fixed;
   top: 50%;
   left: 0;
@@ -482,7 +482,7 @@ body.vasant-panchami-theme::after {
 }
 
 body.independence-day-theme::after {
-  content: '🇮🇳 🪔 🦁 🇮🇳 🪔 🦁 🇮🇳 🪔 🦁';
+  /* content: '🇮🇳 🪔 🦁 🇮🇳 🪔 🦁 🇮🇳 🪔 🦁'; */
   position: fixed;
   top: 50%;
   left: 0;
@@ -497,7 +497,7 @@ body.independence-day-theme::after {
 }
 
 body.engineers-day-theme::after {
-  content: '🔩 📐 ⚙️ 🔩 📐 ⚙️ 🔩 📐 ⚙️';
+  /* content: '🔩 📐 ⚙️ 🔩 📐 ⚙️ 🔩 📐 ⚙️'; */
   position: fixed;
   top: 50%;
   left: 0;
