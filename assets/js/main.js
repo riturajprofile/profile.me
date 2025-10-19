@@ -13,26 +13,65 @@
   const yearEl = $('#year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /*=============== CHHATA PUJA THEME ACTIVATION ===============*/
+  // Automatically apply Chhath theme during September-October
+  const currentMonth = new Date().getMonth(); // 0 = Jan, 8 = Sep, 9 = Oct
+  if (currentMonth === 8 || currentMonth === 9) {
+    document.body.classList.add('chhath-theme');
+    console.log('🌅 Chhata Puja theme activated! Celebrating Bihar/Jharkhand heritage.');
+    
+    // Auto-hide Chhath banner after 6 seconds
+    const chhathBanner = document.querySelector('.chhath-banner');
+    if (chhathBanner) {
+      setTimeout(() => {
+        chhathBanner.classList.add('fade-out');
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          chhathBanner.remove();
+        }, 1200); // Match animation duration
+      }, 6000); // 6 seconds delay
+    }
+  } else {
+    // Remove animation container for other months
+    const animationContainer = document.getElementById('rocket-launch');
+    if (animationContainer) {
+      animationContainer.remove();
+    }
+    console.log('🎨 Default theme active');
+  }
+
   // Rocket launch animation - remove after completion
-/*=============== DIWALI CRACKER ANIMATION ===============*/
+/*=============== CHHATA PUJA (CHHATH) ANIMATION ===============*/
+// Celebrating Bihar/Jharkhand's most sacred harvest festival
 const crackerContainer = document.getElementById('rocket-launch');
 const crackerCanvas = document.getElementById('rocket-trail-canvas');
 
-if (crackerContainer && crackerCanvas) {
-  const ctx = crackerCanvas.getContext('2d');
-  crackerCanvas.width = window.innerWidth;
-  crackerCanvas.height = window.innerHeight;
+if (document.getElementById('rocket-launch') && document.getElementById('rocket-trail-canvas')) {
+  const canvas = document.getElementById('rocket-trail-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-  const colors = [
-    '#FF1744', '#FF9100', '#FFD600', '#00E676', '#00B0FF', '#E040FB', '#FF4081', '#FFEB3B',
-    '#FF69B4', '#FFB300', '#00C853', '#1DE9B6', '#2979FF', '#651FFF', '#F50057', '#C51162',
-    '#FF6F00', '#AEEA00', '#00B8D4', '#D500F9', '#FFAB91', '#B2FF59', '#76FF03', '#F44336',
-    '#FF8A65', '#B388FF', '#8C9EFF', '#00E5FF', '#FF5252', '#FF1744', '#FFD740', '#FFF176',
-    '#B2EBF2', '#B2DFDB', '#DCEDC8', '#FFCCBC', '#D1C4E9', '#F8BBD0', '#E57373', '#F06292',
-    '#BA68C8', '#9575CD', '#7986CB', '#64B5F6', '#4DD0E1', '#4DB6AC', '#81C784', '#AED581',
-    '#DCE775', '#FFF59D', '#FFD54F', '#FFB74D', '#A1887F', '#E0E0E0', '#90A4AE'
+  // Chhath Puja color palette - representing Sun God, harvest, and spirituality
+  const chhathColors = [
+    '#FFD700', // Golden yellow - Sun God (Surya Dev)
+    '#FF6B35', // Saffron - Sacred spiritual color
+    '#FFA500', // Orange - Dawn/dusk prayers
+    '#FFDB58', // Mustard - Harvest & prosperity
+    '#FF8C00', // Dark orange - Setting sun
+    '#FFB347', // Light orange - Rising sun
+    '#F4C430', // Saffron gold - Traditional offerings
+    '#FFC40C', // Golden - Bamboo baskets (Soop)
+    '#FFE4B5', // Moccasin - Morning light
+    '#FFDAB9', // Peach - Gentle sunrise
+    '#FF7F50', // Coral - Sunset prayers
+    '#CD853F', // Peru - Earth & harvest
+    '#DAA520', // Goldenrod - Prosperity
+    '#B8860B', // Dark goldenrod - Spiritual depth
+    '#FFAA33'  // Bright gold - Festival joy
   ];
 
+  // Spark represents flower petals and sun rays during Chhath celebration
   class Spark {
     constructor(x, y, color, angle, speed) {
       this.x = x;
@@ -41,41 +80,62 @@ if (crackerContainer && crackerCanvas) {
       this.vx = Math.cos(angle) * speed;
       this.vy = Math.sin(angle) * speed;
       this.life = 1;
-      this.size = Math.random() * 2 + 1;
+      this.size = Math.random() * 3 + 2; // Larger for petal effect
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotationSpeed = (Math.random() - 0.5) * 0.1;
     }
     update() {
       this.x += this.vx;
       this.y += this.vy;
-      this.vy += 0.15; // gravity
-      this.life -= 0.035; // slower fade for more visible sparks
+      this.vy += 0.12; // Gentle gravity like floating petals
+      this.vx *= 0.99; // Air resistance
+      this.rotation += this.rotationSpeed;
+      this.life -= 0.02; // Slower fade for graceful descent
     }
     draw() {
       ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
       ctx.globalAlpha = this.life;
+      
+      // Draw petal-like shape
       ctx.fillStyle = this.color;
       ctx.shadowColor = this.color;
-      ctx.shadowBlur = 50 * this.life + 10; // strong hot glow that fades
+      ctx.shadowBlur = 25 * this.life + 8;
+      
+      // Petal shape
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size + 2 * this.life, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, this.size * 1.5, this.size * 0.8, 0, 0, Math.PI * 2);
       ctx.fill();
+      
+      // Inner glow
+      ctx.fillStyle = '#FFFFFF';
+      ctx.globalAlpha = this.life * 0.5;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, this.size * 0.6, this.size * 0.4, 0, 0, Math.PI * 2);
+      ctx.fill();
+      
       ctx.restore();
       ctx.globalAlpha = 1;
     }
   }
 
-  class Cracker {
+  // Sun symbol representing Surya Dev - central deity of Chhath Puja
+  class SunOffering {
     constructor() {
-      this.x = crackerCanvas.width / 3;
-      this.y = crackerCanvas.height + 20;
-      this.vy = -22;
+      this.x = canvas.width / 2;
+      this.y = canvas.height + 30;
+      this.vy = -20;
       this.exploded = false;
       this.sparks = [];
+      this.angle = 0;
     }
     update() {
       if (!this.exploded) {
         this.y += this.vy;
-        this.vy += 0.5;
-        if (this.vy > 0 || this.y < crackerCanvas.height * 0.18) {
+        this.vy += 0.45; // Smooth upward motion
+        this.angle += 0.05; // Gentle rotation
+        if (this.vy > 0 || this.y < canvas.height * 0.15) {
           this.explode();
         }
       } else {
@@ -87,12 +147,34 @@ if (crackerContainer && crackerCanvas) {
       if (!this.exploded) {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.fillStyle = '#DC2626';
-        ctx.fillRect(-4, -15, 8, 30);
-        ctx.fillStyle = '#FFD700';
-        ctx.fillRect(-4, -12, 8, 2);
-        ctx.fillRect(-4, -2, 8, 2);
-        ctx.fillRect(-4, 10, 8, 2);
+        ctx.rotate(this.angle);
+        
+        // Draw sun symbol (Surya)
+        const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 20);
+        gradient.addColorStop(0, '#FFD700');
+        gradient.addColorStop(0.5, '#FF6B35');
+        gradient.addColorStop(1, '#FFA500');
+        
+        // Sun circle
+        ctx.fillStyle = gradient;
+        ctx.shadowColor = '#FFD700';
+        ctx.shadowBlur = 30;
+        ctx.beginPath();
+        ctx.arc(0, 0, 15, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Sun rays
+        ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 20;
+        for (let i = 0; i < 8; i++) {
+          const angle = (Math.PI * 2 * i) / 8;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(angle) * 18, Math.sin(angle) * 18);
+          ctx.lineTo(Math.cos(angle) * 28, Math.sin(angle) * 28);
+          ctx.stroke();
+        }
+        
         ctx.restore();
       } else {
         this.sparks.forEach(s => s.draw());
@@ -100,10 +182,11 @@ if (crackerContainer && crackerCanvas) {
     }
     explode() {
       this.exploded = true;
-      for (let i = 0; i < 60; i++) { // more sparks for bigger spread
-        const angle = (Math.PI * 2 * i) / 60;
-        const speed = Math.random() * 12 + 8; // much wider spread
-        const color = colors[Math.floor(Math.random() * colors.length)];
+      // Create 80 petals representing offerings (flowers, fruits) at Chhath
+      for (let i = 0; i < 80; i++) {
+        const angle = (Math.PI * 2 * i) / 80;
+        const speed = Math.random() * 10 + 6;
+        const color = chhathColors[Math.floor(Math.random() * chhathColors.length)];
         this.sparks.push(new Spark(this.x, this.y, color, angle, speed));
       }
     }
@@ -112,23 +195,32 @@ if (crackerContainer && crackerCanvas) {
     }
   }
 
-  const cracker = new Cracker();
+  const sunOffering = new SunOffering();
 
   function animate() {
-    ctx.clearRect(0, 0, crackerCanvas.width, crackerCanvas.height);
-    cracker.update();
-    cracker.draw();
-    if (!cracker.isDone()) {
+    // Create subtle golden gradient background during animation
+    const gradient = ctx.createRadialGradient(
+      canvas.width / 2, canvas.height * 0.15, 0,
+      canvas.width / 2, canvas.height * 0.15, canvas.width * 0.6
+    );
+    gradient.addColorStop(0, 'rgba(255, 215, 0, 0.03)');
+    gradient.addColorStop(1, 'rgba(255, 107, 53, 0.01)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    sunOffering.update();
+    sunOffering.draw();
+    
+    if (!sunOffering.isDone()) {
       requestAnimationFrame(animate);
     } else {
-      // Animation complete
+      // Keep for 1 second then remove
       setTimeout(() => {
-        crackerContainer.remove();
-      }, 300);
+        document.getElementById('rocket-launch').remove();
+      }, 1000);
     }
   }
 
-  // Start animation with initial timestamp
   animate();
 
   // Handle window resize
