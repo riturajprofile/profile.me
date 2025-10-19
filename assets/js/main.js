@@ -45,6 +45,9 @@
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          // handle staggered reveal children
+          const delay = entry.target.getAttribute('data-delay');
+          if (delay) entry.target.style.transitionDelay = `${Number(delay) * 0.06}s`;
           entry.target.classList.add('visible');
           io.unobserve(entry.target);
         }
@@ -53,6 +56,48 @@
     { threshold: 0.15 }
   );
   $$('.reveal').forEach((el) => io.observe(el));
+
+  // Profile image is a single decorative image; no fallback handling required.
+
+  // Follow-dot for hero title
+  const heroTitle = document.querySelector('.hero__title');
+  if (heroTitle) {
+    heroTitle.setAttribute('data-hover', 'true');
+    const dot = document.createElement('div');
+    dot.className = 'follow-dot';
+    heroTitle.appendChild(dot);
+
+    heroTitle.addEventListener('mousemove', (e) => {
+      const rect = heroTitle.getBoundingClientRect();
+      // constrain to rect with a small padding
+      const padding = 6;
+      const clampedX = Math.max(rect.left + padding, Math.min(e.clientX, rect.right - padding));
+      const clampedY = Math.max(rect.top + padding, Math.min(e.clientY, rect.bottom - padding));
+      dot.style.left = `${clampedX - rect.left}px`;
+      dot.style.top = `${clampedY - rect.top}px`;
+      dot.style.opacity = '1';
+      dot.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+    heroTitle.addEventListener('mouseleave', () => {
+      dot.style.opacity = '0';
+      dot.style.transform = 'translate(-50%, -50%) scale(.9)';
+    });
+  }
+
+  // Active section tracking for nav links
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+  const navLinks = Array.from(document.querySelectorAll('.nav__menu a'));
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const id = entry.target.id;
+      const link = document.querySelector(`.nav__menu a[href="#${id}"]`);
+      if (entry.isIntersecting) {
+        navLinks.forEach((l) => l.classList.remove('active'));
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach((s) => sectionObserver.observe(s));
 
   // Projects: fetch GitHub repos
   async function loadProjects() {
@@ -72,7 +117,7 @@
       const filtered = repos
         .filter((r) => !r.fork)
         .sort((a, b) => b.stargazers_count - a.stargazers_count)
-        .slice(0, 8);
+        .slice(0, 6); // show only top 6 projects per request
 
       grid.innerHTML = '';
 
@@ -106,9 +151,136 @@
   }
   loadProjects();
 
+  // LinkedIn: fetch profile + recent posts (if backend configured)
+  async function loadLinkedIn() {
+    const profileEl = document.getElementById('linkedin-profile');
+    const postsEl = document.getElementById('linkedin-posts');
+    const errorEl = document.getElementById('linkedin-error');
+    if (!profileEl && !postsEl) return; // nothing to render
+
+    // show lightweight placeholders
+    if (profileEl) {
+      profileEl.classList.remove('hidden');
+      profileEl.innerHTML = '<p class="muted">Loading LinkedIn profile…</p>';
+    }
+    if (postsEl) {
+      postsEl.classList.remove('hidden');
+      postsEl.innerHTML = '<p class="muted">Loading recent posts…</p>';
+    }
+
+    try {
+      const res = await fetch('/api/linkedin');
+      if (!res.ok) throw new Error(`LinkedIn API not available (${res.status})`);
+      const data = await res.json();
+
+      // Extract localized name
+      const p = data.profile || {};
+      const first = p.localizedFirstName
+        || (p.firstName?.localized && p.firstName?.preferredLocale
+            ? p.firstName.localized[`${p.firstName.preferredLocale.language}_${p.firstName.preferredLocale.country}`]
+            : undefined);
+      const last = p.localizedLastName
+        || (p.lastName?.localized && p.lastName?.preferredLocale
+            ? p.lastName.localized[`${p.lastName.preferredLocale.language}_${p.lastName.preferredLocale.country}`]
+            : undefined);
+      const headline = p.localizedHeadline || p.headline || '';
+
+      // Email
+      let email = '';
+      const elements = data.email?.elements || [];
+      if (elements.length && elements[0]['handle~']?.emailAddress) {
+        email = elements[0]['handle~'].emailAddress;
+      }
+
+      // Render profile card
+      if (profileEl) {
+        const displayName = [first, last].filter(Boolean).join(' ').trim() || 'LinkedIn Member';
+        const headlineHtml = headline ? `<p class="muted" style="margin-top:.25rem">${headline}</p>` : '';
+        const emailHtml = email ? `<p class="small"><strong>Email:</strong> ${email}</p>` : '';
+        profileEl.innerHTML = `
+          <div class="card__body">
+            <h3 class="card__title" style="margin-bottom:.25rem">${displayName}</h3>
+            ${headlineHtml}
+            ${emailHtml}
+            <div style="margin-top:.5rem">
+              <a class="btn btn--ghost" href="https://www.linkedin.com/in/riturajprofile" target="_blank" rel="noopener noreferrer">Open LinkedIn</a>
+            </div>
+          </div>
+        `;
+      }
+
+      // Extract posts array (UGC)
+      let posts = [];
+      if (Array.isArray(data.posts?.elements)) posts = data.posts.elements;
+      else if (Array.isArray(data.posts)) posts = data.posts;
+
+      // Render recent posts
+      if (postsEl) {
+        if (!posts.length) {
+          postsEl.innerHTML = '<p class="muted">No recent posts to display.</p>';
+        } else {
+          postsEl.innerHTML = '';
+          posts.slice(0, 5).forEach((post) => {
+            const urn = post.id || post.urn || '';
+            // text content
+            const text = post.specificContent?.['com.linkedin.ugc.ShareContent']?.shareCommentary?.text
+              || post.commentary?.text || 'LinkedIn post';
+            // timestamps
+            const createdMs = post.created?.time || post.firstPublishedAt || post.lastModified?.time;
+            const dateStr = createdMs ? new Date(createdMs).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+            const link = urn ? `https://www.linkedin.com/feed/update/${encodeURIComponent(urn)}/` : 'https://www.linkedin.com/';
+
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.innerHTML = `
+              <p class="card__desc">${text.length > 160 ? text.slice(0, 157) + '…' : text}</p>
+              <div class="card__meta">
+                <span class="muted small">${dateStr}</span>
+                <a class="btn btn--ghost" href="${link}" target="_blank" rel="noopener noreferrer">Open</a>
+              </div>
+            `;
+            postsEl.appendChild(card);
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('LinkedIn section:', err);
+      if (profileEl) profileEl.classList.add('hidden');
+      if (postsEl) postsEl.classList.add('hidden');
+      if (errorEl) {
+        errorEl.textContent = 'LinkedIn data is not available right now.';
+        errorEl.classList.remove('hidden');
+      }
+    }
+  }
+  loadLinkedIn();
+
+    // Copy email to clipboard (no mailto)
+    const copyBtn = $('#copy-email');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async (e) => {
+        const email = copyBtn.getAttribute('data-email') || 'riturajprofile.me@gmail.com';
+        try {
+          await navigator.clipboard.writeText(email);
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => { copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v.01L12 13l8-6.99V6H4Zm16 12V9.236l-8 6.99-8-6.99V18h16Z" fill="currentColor"/></svg> Copy Email'; }, 2000);
+        } catch (err) {
+          // fallback: select text
+          const tmp = document.createElement('input');
+          tmp.value = email;
+          document.body.appendChild(tmp);
+          tmp.select();
+          document.execCommand('copy');
+          document.body.removeChild(tmp);
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => (copyBtn.textContent = 'Copy Email'), 2000);
+        }
+      });
+    }
+
   // Contact form validation + mailto fallback
   const form = $('#contact-form');
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = $('#name');
     const email = $('#email');
@@ -139,13 +311,58 @@
       return;
     }
 
-    // Mailto fallback
-    const subject = encodeURIComponent('Portfolio Contact');
-    const body = encodeURIComponent(`Name: ${name.value}\nEmail: ${email.value}\n\n${message.value}`);
-    const mail = 'your.email@example.com'; // TODO: replace with your email
-    window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;
-    status.textContent = 'Opening your email client...';
+    const body = { name: name.value.trim(), email: email.value.trim(), message: message.value.trim() };
+    const endpoint = form.getAttribute('data-endpoint') || '';
+
+    // If a Formspree endpoint is provided (not the placeholder), post there
+    if (endpoint && !endpoint.includes('your_form_id')) {
+      status.textContent = 'Sending...';
+      try {
+        const resp = await fetch(endpoint, {
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body)
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok) {
+          status.textContent = 'Message sent — thank you! I will reply via email soon.';
+          form.reset();
+        } else {
+          status.textContent = data.error || 'Failed to send message via Formspree.';
+          status.style.color = '#b91c1c';
+        }
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Failed to reach Formspree. Message copied to clipboard.';
+        status.style.color = '#b91c1c';
+        try { await navigator.clipboard.writeText(`Name: ${body.name}\nEmail: ${body.email}\n\n${body.message}`); } catch(e){}
+      }
+      return;
+    }
+
+    // If no Formspree endpoint, attempt serverless function
+    status.textContent = 'Sending...';
     status.style.color = 'inherit';
-    form.reset();
+    try {
+      const resp = await fetch('/api/send-email', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok) {
+        status.textContent = 'Message sent — thank you! I will reply via email soon.';
+        form.reset();
+      } else if (resp.status === 202) {
+        // dev fallback: server accepted but did not send
+        status.textContent = 'Message accepted (dev). Copied to clipboard.';
+        try { await navigator.clipboard.writeText(`Name: ${body.name}\nEmail: ${body.email}\n\n${body.message}`); } catch(e){}
+        form.reset();
+      } else {
+        status.textContent = data.error || 'Failed to send message. Please try again later.';
+        status.style.color = '#b91c1c';
+      }
+    } catch (err) {
+      console.error(err);
+      status.textContent = 'Failed to reach email service. Message copied to clipboard.';
+      status.style.color = '#b91c1c';
+      try { await navigator.clipboard.writeText(`Name: ${body.name}\nEmail: ${body.email}\n\n${body.message}`); } catch(e){}
+    }
   });
 })();

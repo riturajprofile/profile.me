@@ -1,0 +1,9 @@
+{
+  "name": "profile.me-site",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "nodemailer": "^6.9.4",
+    "node-fetch": "^2.6.7"
+  }
+}
