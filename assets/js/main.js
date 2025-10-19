@@ -22,6 +22,8 @@
   
   let activeTheme = 'default';
   let themeBannerMessage = '';
+  // Cache repo -> extension tags within session to avoid repeated API calls
+  const repoExtCache = new Map();
   
   // February: Vasant Panchami (Saraswati Puja) - usually early Feb
   if (currentMonth === 1 || (currentMonth === 0 && currentDate >= 27)) {
@@ -196,6 +198,77 @@
   }, { threshold: 0.5 });
   sections.forEach((s) => sectionObserver.observe(s));
 
+  // Compute repo tags from file extensions by inspecting the git tree (top 5)
+  async function getRepoTopExtensions(repo) {
+    try {
+      const owner = repo.owner?.login || 'riturajprofile';
+      const name = repo.name;
+      const branch = repo.default_branch || 'main';
+      const cacheKey = `${owner}/${name}@${branch}`;
+      if (repoExtCache.has(cacheKey)) return repoExtCache.get(cacheKey);
+
+      const url = `https://api.github.com/repos/${owner}/${name}/git/trees/${branch}?recursive=1`;
+
+      // Exclude common non-code/vendor paths and noise extensions
+      const excludeDirs = [
+        'node_modules/', 'dist/', 'build/', 'out/', 'coverage/', 'vendor/', 'target/',
+        '.git/', '.github/', '.gitlab/', '.vscode/', '.idea/', '.next/', '.vercel/', '.cache/',
+        'venv/', '.venv/', 'env/', 'virtualenv/', '__pycache__/', '.mypy_cache/', '.pytest_cache/', '.ruff_cache/'
+      ];
+      const excludeExt = new Set([
+        // docs/data
+        'txt','adoc','rst','csv','tsv','mdx',
+        // images/media
+        'png','jpg','jpeg','gif','svg','webp','ico','avif','heic','bmp','tiff',
+        'mp4','mov','webm','mp3','wav','ogg',
+        // config/infra
+        'lock','log','yml','yaml','toml','ini','env','conf','cfg','properties','hcl',
+        // dotfiles and ignores
+        'gitignore','gitattributes','editorconfig','npmrc','nvmrc','prettierrc','prettierignore','eslintrc','eslintignore','babelrc','dockerignore','slugignore',
+        // docs/binaries
+        'pdf','doc','docx','xls','xlsx','ppt','pptx',
+        // misc
+        'imd','iml','bak','tmp','swp','DS_Store','keep','db','json'
+      ]);
+
+      const resp = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!resp.ok) throw new Error(`Tree API error: ${resp.status}`);
+      const data = await resp.json();
+      const tree = Array.isArray(data.tree) ? data.tree : [];
+      const counts = new Map();
+
+      for (const item of tree) {
+        if (item.type !== 'blob' || !item.path) continue;
+        const path = String(item.path);
+        // Skip hidden directories or files (any segment starting with '.')
+        const segments = path.split('/');
+        if (segments.some((seg) => seg.startsWith('.'))) continue;
+        if (excludeDirs.some((d) => path.startsWith(d) || path.includes(`/${d}`))) continue;
+        const filename = segments[segments.length - 1];
+        // Skip dotfiles explicitly
+        if (filename.startsWith('.')) continue;
+        if (!filename || !filename.includes('.')) continue;
+        const m = filename.match(/\.([A-Za-z0-9]+)$/);
+        if (!m) continue;
+        const ext = m[1].toLowerCase();
+        if (excludeExt.has(ext)) continue;
+        counts.set(ext, (counts.get(ext) || 0) + 1);
+      }
+
+      const top = Array.from(counts.entries())
+        .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]))
+        .slice(0, 5)
+        .map(([ext]) => `.${ext}`);
+
+      const result = top.length ? top : (repo.language ? [repo.language] : []);
+      repoExtCache.set(cacheKey, result);
+      return result;
+    } catch (e) {
+      // Fallback to repo.language if any error occurs
+      return repo.language ? [repo.language] : [];
+    }
+  }
+
   // Projects: fetch GitHub repos
   async function loadProjects() {
     const grid = $('#projects-grid');
@@ -245,14 +318,17 @@
         return;
       }
       for (const repo of filtered) {
+        // Compute tags from repo file extensions
+        const extTags = await getRepoTopExtensions(repo).catch(() => []);
         const card = document.createElement('article');
         card.className = 'card';
+  const extTagsHtml = extTags.map((e) => `<span class="tag">${e.startsWith('.') ? e.slice(1) : e}</span>`).join('');
         card.innerHTML = `
           <h3 class="card__title">${repo.name.replace(/-/g, ' ')}</h3>
           <p class="card__desc">${repo.description ? repo.description : 'No description available.'}</p>
           <div class="card__meta">
             <div class="card__tags">
-              ${repo.language ? `<span class="tag">${repo.language}</span>` : ''}
+              ${extTagsHtml || (repo.language ? `<span class=\"tag\">${repo.language}</span>` : '')}
               ${repo.stargazers_count ? `<span class="tag">★ ${repo.stargazers_count}</span>` : ''}
               ${repo.forks_count ? `<span class="tag">⑂ ${repo.forks_count}</span>` : ''}
             </div>
