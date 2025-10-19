@@ -277,22 +277,46 @@ img, svg { display: block; max-width: 100%; }
 /* Seasonal Theme Banner */
 .theme-banner {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  top: 2rem;
+  right: 2rem;
+  left: auto;
+  width: auto;
+  min-width: 260px;
+  max-width: 350px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%), rgba(255,255,255,0.18);
   color: var(--text);
-  padding: 1rem 2rem;
-  text-align: center;
+  padding: 1.1rem 1.7rem 1.1rem 1.3rem;
+  text-align: left;
   z-index: 10000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  border-radius: 18px;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-  opacity: 0.92;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  font-size: 1.08rem;
+  opacity: 0.96;
   pointer-events: none;
+  transition: opacity 1.2s, top 0.4s, right 0.4s, box-shadow 0.3s;
+}
+.theme-banner strong {
+  font-weight: 700;
+  font-size: 1.13em;
+  letter-spacing: 0.01em;
+  margin-right: 0.3em;
+  display: inline-flex;
+  align-items: center;
+}
+.theme-banner::before {
+  content: '✨';
+  font-size: 1.3em;
+  margin-right: 0.7em;
+  filter: drop-shadow(0 2px 6px rgba(255,215,0,0.18));
+  opacity: 0.85;
+}
 }
 
 .theme-banner.dim {
