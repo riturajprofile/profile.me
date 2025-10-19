@@ -274,13 +274,6 @@ img, svg { display: block; max-width: 100%; }
 .error { color: #dc2626; }
 .hidden { display: none; }
 
-/* Cursor behavior: avoid text caret appearing on general clicks */
-html, body, main, section, div, header, footer, nav, ul, li, p, h1, h2, h3, h4, h5, h6, img, svg, button, a {
-  cursor: default;
-}
-button, a, [role="button"], .btn, .nav__toggle, .nav__menu a { cursor: pointer; }
-input, textarea { cursor: text; }
-
 /* Seasonal Theme Banner */
 .theme-banner {
   position: fixed;
