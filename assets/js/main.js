@@ -478,46 +478,31 @@
     }
   });
 
-  // AI badge dropdown popup logic (nav bar)
+  // AI badge redirect (nav bar)
   const aiBadge = document.getElementById('ai-badge');
-  const aiPopup = document.getElementById('ai-popup');
-  const aiPopupClose = document.getElementById('ai-popup-close');
-  if (aiBadge && aiPopup && aiPopupClose) {
+  if (aiBadge) {
+    // Remove old popup if it exists
+    const aiPopup = document.getElementById('ai-popup');
+    if (aiPopup) aiPopup.remove();
+
+    const goAI = () => {
+      // Same-tab redirect; change to '_blank' with window.open if you prefer new tab
+      window.location.href = 'https://rituraj.tech/';
+    };
+
     aiBadge.addEventListener('click', (e) => {
-      e.stopPropagation();
-      aiPopup.classList.toggle('hidden');
-      aiPopup.setAttribute('aria-hidden', aiPopup.classList.contains('hidden') ? 'true' : 'false');
-      if (!aiPopup.classList.contains('hidden')) {
-        aiPopupClose.focus();
-      }
-    });
-    aiPopupClose.addEventListener('click', () => {
-      aiPopup.classList.add('hidden');
-      aiPopup.setAttribute('aria-hidden', 'true');
-      aiBadge.focus();
-    });
-    // Close popup on Escape key
-    aiPopup.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        aiPopup.classList.add('hidden');
-        aiPopup.setAttribute('aria-hidden', 'true');
-        aiBadge.focus();
-      }
-    });
-    // Trap focus inside popup
-    aiPopup.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
+      // If it's already an <a href>, let native navigation happen
+      const isAnchor = aiBadge.tagName.toLowerCase() === 'a' && aiBadge.hasAttribute('href');
+      if (!isAnchor) {
         e.preventDefault();
-        aiPopupClose.focus();
+        goAI();
       }
     });
-    // Close popup when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!aiPopup.classList.contains('hidden')) {
-        if (!aiPopup.contains(e.target) && e.target !== aiBadge) {
-          aiPopup.classList.add('hidden');
-          aiPopup.setAttribute('aria-hidden', 'true');
-        }
+
+    aiBadge.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        goAI();
       }
     });
   }
