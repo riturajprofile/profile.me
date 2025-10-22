@@ -487,7 +487,8 @@
 
     const goAI = () => {
       // Same-tab redirect; change to '_blank' with window.open if you prefer new tab
-      window.location.href = 'https://rituraj.tech/';
+      // window.location.href = 'https://rituraj.tech/';
+      window.open('https://rituraj.tech/', '_blank');
     };
 
     aiBadge.addEventListener('click', (e) => {
